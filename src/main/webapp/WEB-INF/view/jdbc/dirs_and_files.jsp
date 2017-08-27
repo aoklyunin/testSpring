@@ -64,7 +64,7 @@
         <script src="jquery.js"></script>
         <script>
             $( document ).ready(function() {
-                alert("Hello");
+              //  alert("Hello");
             });
         </script>
     </jsp:body>

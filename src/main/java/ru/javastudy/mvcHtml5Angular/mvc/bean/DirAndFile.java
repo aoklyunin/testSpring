@@ -1,9 +1,26 @@
 package ru.javastudy.mvcHtml5Angular.mvc.bean;
 
+import org.springframework.jdbc.core.PreparedStatementCreator;
+
 import javax.xml.bind.annotation.XmlElement;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
+import java.util.stream.Stream;
 
 /**
  * Created for JavaStudy.ru on 26.02.2016.
@@ -84,4 +101,80 @@ public class DirAndFile implements Serializable {
         this.SUMMURYSIZE = SUMMURYSIZE;
     }
 
+    @Override
+    public String toString() {
+        return "DirAndFile{" +
+                "CREATED=" + CREATED +
+                ", PATH='" + PATH + '\'' +
+                ", DIRCNT=" + DIRCNT +
+                ", FILECNT=" + FILECNT +
+                ", SUMMURYSIZE='" + SUMMURYSIZE + '\'' +
+                '}';
+    }
+
+    public static DirAndFile getObj(String path){
+        DirAndFile res = new DirAndFile();
+        res.PATH = path;
+        Path p = Paths.get(path);
+        if (!Files.exists(p)) return null;
+        BasicFileAttributes attr;
+        try {
+            attr = Files.readAttributes(p, BasicFileAttributes.class);
+            res.CREATED = new Date(attr.creationTime().toMillis());
+            res.DIRCNT = (int)Files.list(p).filter(path1 -> path1.toFile().isDirectory()).count();
+            res.FILECNT = (int)Files.list(p).filter(path1 -> path1.toFile().isFile()).count();
+            long size = Files.list(p).filter(path1 -> path1.toFile().isFile()).
+                    map(path1 -> path1.toFile().length()).mapToLong(value -> value.longValue()).sum();
+            res.SUMMURYSIZE = getBfFileSize(size);
+
+        } catch (IOException e) {
+            System.out.println(e);
+            return null;
+        }
+        return res;
+    }
+
+    private static final long K = 1024;
+    private static final long M = K * K;
+    private static final long G = M * K;
+    private static final long T = G * K;
+
+    public static String getBfFileSize(final long value){
+        final long[] dividers = new long[] { T, G, M, K, 1 };
+        final String[] units = new String[] { "TB", "GB", "MB", "KB", "B" };
+        if(value < 1)
+            throw new IllegalArgumentException("Invalid file size: " + value);
+        String result = null;
+        for(int i = 0; i < dividers.length; i++){
+            final long divider = dividers[i];
+            if(value >= divider){
+                result = format(value, divider, units[i]);
+                break;
+            }
+        }
+        return result;
+    }
+
+    private static String format(final long value,
+                                 final long divider,
+                                 final String unit){
+        final double result =
+                divider > 1 ? (double) value / (double) divider : (double) value;
+        return String.format("%.1f %s", Double.valueOf(result), unit);
+    }
+
+    public PreparedStatementCreator getPreparedStatementCreator() {
+        final String INSERT_SQL = "INSERT INTO DIRANDFILE (CREATED,PATH,DIRCNT,FILECNT,SUMMURYSIZE) VALUES (?,?,?,?,?)";
+        return new PreparedStatementCreator() {
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+               PreparedStatement preparedStatement = connection.prepareStatement(INSERT_SQL);
+                preparedStatement.setDate(1,new java.sql.Date(CREATED.getTime()));
+                preparedStatement.setString(2,PATH);
+                preparedStatement.setInt(3,DIRCNT);
+                preparedStatement.setInt(4,FILECNT);
+                preparedStatement.setString(5,SUMMURYSIZE);
+                return preparedStatement;
+            }
+        };
+    }
 }

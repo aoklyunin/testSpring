@@ -11,10 +11,20 @@ import ru.javastudy.mvcHtml5Angular.mvc.bean.User;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
+import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,6 +37,7 @@ public class JDBCExample {
     DataSource dataSource; //look to application-context.xml bean id='dataSource' definition
 
     private JdbcTemplate jdbcTemplate;
+
     @PostConstruct
     public void init() {
         System.out.println("JDBCExample postConstruct is called. datasource = " + dataSource);
@@ -53,7 +64,7 @@ public class JDBCExample {
         final String QUERY_SQL = "SELECT * FROM LOG ORDER BY IDLOG";
         List<DBLog> dbLogList = this.jdbcTemplate.query(QUERY_SQL, new RowMapper<DBLog>() {
             public DBLog mapRow(ResultSet resulSet, int rowNum) throws SQLException {
-                System.out.println("Getting log: "+ rowNum + " content: " + resulSet.getString("LOGSTRING"));
+                System.out.println("Getting log: " + rowNum + " content: " + resulSet.getString("LOGSTRING"));
                 DBLog dbLog = new DBLog();
                 dbLog.setIDLOG(resulSet.getInt("IDLOG"));
                 dbLog.setLOGSTRING(resulSet.getString("LOGSTRING"));
@@ -83,7 +94,7 @@ public class JDBCExample {
     public boolean deleteUSER(int iduser) {
         System.out.println("JDBCExample: deleteUSER called");
         final String DELETE_SQL = "DELETE FROM USER WHERE IDUSER LIKE ?";
-        int result = jdbcTemplate.update(DELETE_SQL,new Object[]{iduser});
+        int result = jdbcTemplate.update(DELETE_SQL, new Object[]{iduser});
         System.out.println("r" + result);
         if (result > 0) {
             System.out.println("User is deleted: " + iduser);
@@ -94,10 +105,10 @@ public class JDBCExample {
     }
 
     //JDBC TEMPLATE UPDATE EXAMPLE
-    public boolean updateUserEnable(User u, boolean enable)  {
+    public boolean updateUserEnable(User u, boolean enable) {
         System.out.println("JDBCExample: updateUserEnable called");
         final String UPDATE_SQL = "UPDATE USER SET ENABLED = ? WHERE USERNAME = ?";
-        int result = jdbcTemplate.update(UPDATE_SQL,new Object[]{enable, u.getUsername()});
+        int result = jdbcTemplate.update(UPDATE_SQL, new Object[]{enable, u.getUsername()});
         if (result > 0) {
             System.out.println("User is updated: " + u.getUsername());
             return true;
@@ -107,12 +118,12 @@ public class JDBCExample {
     }
 
 
-   public List<DirAndFile> queryAllDirs() {
+    public List<DirAndFile> queryAllDirs() {
         System.out.println("JDBCExample: queryAllLogs() is called");
         final String QUERY_SQL = "SELECT * FROM DIRANDFILE ORDER BY IDDIRANDFILE";
         List<DirAndFile> dbLogList = this.jdbcTemplate.query(QUERY_SQL, new RowMapper<DirAndFile>() {
             public DirAndFile mapRow(ResultSet resulSet, int rowNum) throws SQLException {
-                System.out.println("Getting log: "+ rowNum + " content: " + resulSet.getString("PATH"));
+                System.out.println("Getting log: " + rowNum + " content: " + resulSet.getString("PATH"));
                 DirAndFile dbLog = new DirAndFile();
                 dbLog.setIDLOG(resulSet.getInt("IDDIRANDFILE"));
                 dbLog.setCREATED(resulSet.getDate("CREATED"));
@@ -124,5 +135,14 @@ public class JDBCExample {
             }
         });
         return dbLogList;
+    }
+
+    public boolean addDir(String path) {
+        System.out.println("addDir called");
+        DirAndFile daf = DirAndFile.getObj(path);
+        if (daf==null) return false;
+        else System.out.println(daf);
+        jdbcTemplate.update(daf.getPreparedStatementCreator());
+        return true;
     }
 }

@@ -75,6 +75,7 @@ public class JDBCController {
     @RequestMapping(value = "/dirs_and_files", method = RequestMethod.POST)
     public String dirsAndFilesPOST(HttpServletRequest request) {
         String path = request.getParameter("path");
+        System.out.println(jdbcExample.addDir(path));
         System.out.println(path);
         return "redirect:/dirs_and_files";
     }
