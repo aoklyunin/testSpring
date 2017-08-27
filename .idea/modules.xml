@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MVC_Html5_AngularJS project.iml" filepath="$PROJECT_DIR$/MVC_Html5_AngularJS project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/testSpring.iml" filepath="$PROJECT_DIR$/testSpring.iml" />
     </modules>
   </component>
 </project>

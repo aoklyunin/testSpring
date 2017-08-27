@@ -25,9 +25,9 @@
                 </div>
             </div>
             <div class="row" align="center">
-                <form  class="form-inline" >
-                    <label for="folderPath">Новая директория</label>
-                    <input class="form-control" id="folderPath">
+                <form  id="theForm" class="form-inline" method="POST">
+                    <label for="path">Новая директория</label>
+                    <input class="form-control" id = "path" name="path">
                     <button type="submit" class="btn btn-default">Добавить в список</button>
                 </form>
             </div>
@@ -45,7 +45,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${resultObject}" var="item">
+                        <c:forEach items="${dbLogs}" var="item">
                             <tr>
                                 <td>${item.CREATED}</td>
                                 <td>${item.PATH}</td>
@@ -61,7 +61,12 @@
             <hr>
         </div>
         <!-- /.container -->
-
+        <script src="jquery.js"></script>
+        <script>
+            $( document ).ready(function() {
+                alert("Hello");
+            });
+        </script>
     </jsp:body>
 </page:template>
 

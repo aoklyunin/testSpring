@@ -8,11 +8,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="MVC_AngularJS_Html5 project" />
         <module name="MVC_Html5_AngularJS project" />
+        <module name="testSpring" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="MVC_AngularJS_Html5 project" target="1.5" />
       <module name="MVC_Html5_AngularJS project" target="1.8" />
+      <module name="testSpring" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

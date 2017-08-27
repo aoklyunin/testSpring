@@ -107,7 +107,7 @@ public class JDBCExample {
     }
 
 
-    public List<DirAndFile> queryAllDirs() {
+   public List<DirAndFile> queryAllDirs() {
         System.out.println("JDBCExample: queryAllLogs() is called");
         final String QUERY_SQL = "SELECT * FROM DIRANDFILE ORDER BY IDDIRANDFILE";
         List<DirAndFile> dbLogList = this.jdbcTemplate.query(QUERY_SQL, new RowMapper<DirAndFile>() {
