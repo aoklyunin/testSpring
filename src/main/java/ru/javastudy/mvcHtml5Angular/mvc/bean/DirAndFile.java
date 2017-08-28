@@ -193,6 +193,8 @@ public class DirAndFile implements Serializable {
         return preparedStatement;
     }
 
+
+
     public void getCreationFiles(JdbcTemplate jdbcTemplate, String path) {
 
         final String QUERY_SQL = "SELECT (IDDIRANDFILE) FROM  DIRANDFILE WHERE " +
@@ -208,13 +210,9 @@ public class DirAndFile implements Serializable {
             }
         }).get(0);
 
-
-        final String INSERT_SQL = "INSERT INTO LOG (LOGSTRING) VALUES (?)";
-
-
-        List<HierarhiFile> hf = HierarhiFile.getByFile(path,id);
+        List<HierarhiFile> hf = HierarhiFile.getByFile(path, id);
         System.out.println(hf);
-        for(HierarhiFile h:hf){
+        for (HierarhiFile h : hf) {
             jdbcTemplate.update(h.getPreparedStatementCreator());
         }
     }

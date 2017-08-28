@@ -160,4 +160,21 @@ public class JDBCExample {
         });
         return dbLogList;
     }
+
+    public String getPathById(int id) {
+        final String QUERY_SQL = "SELECT (PATH) FROM  DIRANDFILE WHERE +IDDIRANDFILE=?";
+
+        return jdbcTemplate.query(new PreparedStatementCreator() {
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement preparedStatement = connection.prepareStatement(QUERY_SQL);
+                preparedStatement.setInt(1, id);
+                return preparedStatement;
+            }
+        }, new RowMapper<String>() {
+            public String mapRow(ResultSet resulSet, int rowNum) throws SQLException {
+                return resulSet.getString("PATH");
+            }
+        }).get(0);
+
+    }
 }

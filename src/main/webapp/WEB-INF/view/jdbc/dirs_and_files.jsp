@@ -107,12 +107,13 @@
                         data: {'id': String(event.target.id)}, // An object with the key 'submit' and value 'true;
                         success: function (results) {
                             $('#insertRow').empty();
-                            $.each(results, function (k, v) {
+                            $.each(results.lst, function (k, v) {
                                 $('<tr>').append(
                                     $('<td>').text(v.NAME),
                                     $('<td>').text(v.SIZE)
                                 ).appendTo('#insertRow');
                             });
+                            $('#modalTitle').text(results.path);
                             $('#myModal').modal('show');
                         }
                     });

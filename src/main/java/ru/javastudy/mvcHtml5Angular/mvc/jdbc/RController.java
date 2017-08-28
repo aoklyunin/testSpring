@@ -3,6 +3,7 @@ package ru.javastudy.mvcHtml5Angular.mvc.jdbc;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ru.javastudy.mvcHtml5Angular.mvc.bean.DirAndFile;
 import ru.javastudy.mvcHtml5Angular.mvc.bean.HierarhiFile;
 
 import java.util.Comparator;
@@ -18,6 +19,15 @@ public class RController {
     @Autowired
     JDBCExample jdbcExample;
 
+    class RetStruct{
+        List<HierarhiFile> lst;
+        String path;
+
+        public RetStruct(List<HierarhiFile> lst, String path) {
+            this.lst = lst;
+            this.path = path;
+        }
+    }
     @RequestMapping(value = "/getFiles", method = RequestMethod.POST, headers = "Accept=application/json")
     public
     @ResponseBody
@@ -36,6 +46,6 @@ public class RController {
             }
         });
 
-        return new Gson().toJson(lst);
+        return new Gson().toJson(new RetStruct(lst,jdbcExample.getPathById(Integer.parseInt(id))));
     }
 }
