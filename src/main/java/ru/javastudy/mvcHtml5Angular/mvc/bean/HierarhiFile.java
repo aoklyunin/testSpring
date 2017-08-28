@@ -87,7 +87,7 @@ public class HierarhiFile {
         try {
             return Files.list(p).map(path1 -> {
                 File file = path1.toFile();
-                String size = "";
+                String size;
                 if (file.isDirectory()) size = "<DIR>";
                 else size = DirAndFile.getBfFileSize(file.length());
                 return new HierarhiFile(size,file.getName(), ownerId);
