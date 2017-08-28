@@ -6,6 +6,9 @@
 
 
 <page:template>
+
+    <jsp:attribute name="title">Директории и файлы</jsp:attribute>
+
     <jsp:body>
 
         <!-- Page Content -->
