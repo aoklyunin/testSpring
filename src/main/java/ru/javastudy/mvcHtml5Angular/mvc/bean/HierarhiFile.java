@@ -3,6 +3,7 @@ package ru.javastudy.mvcHtml5Angular.mvc.bean;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 
 import javax.xml.bind.annotation.XmlElement;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,6 +17,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 /**
@@ -82,7 +85,13 @@ public class HierarhiFile {
         Path p = Paths.get(path);
         if (!Files.exists(p)) return lst;
         try {
-            return Files.list(p).map(path1 -> new HierarhiFile(DirAndFile.getBfFileSize(path1.toFile().length()), path1.toFile().getName(), ownerId)).collect(Collectors.toList());
+            return Files.list(p).map(path1 -> {
+                File file = path1.toFile();
+                String size = "";
+                if (file.isDirectory()) size = "<DIR>";
+                else size = DirAndFile.getBfFileSize(file.length());
+                return new HierarhiFile(size,file.getName(), ownerId);
+            }).collect(Collectors.toList());
         } catch (IOException e) {
             System.out.println(e);
         }
