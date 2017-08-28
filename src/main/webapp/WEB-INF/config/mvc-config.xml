@@ -12,7 +12,7 @@
 
     <!-- context:component-scan This tag will scan @Component, @Repository, @Service, @Controller
          and also resolves @Autowired and @Qualifier -->
-    <context:component-scan base-package="ru.javastudy.mvcHtml5Angular.mvc" />
+    <context:component-scan base-package="ru.testWork.aoklyunin.mvc" />
 
     <!--
         mvc:annotation-driven configures Spring MVC annotations

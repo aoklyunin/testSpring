@@ -4,7 +4,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.javastudy.mvcHtml5Angular.mvc.jdbc.JDBCHelper;
+import ru.testWork.aoklyunin.mvc.jdbc.JDBCHelper;
 
 /**
  * Created for JavaStudy.ru on 24.02.2016.

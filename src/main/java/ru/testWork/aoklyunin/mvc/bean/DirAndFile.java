@@ -1,12 +1,7 @@
-package ru.javastudy.mvcHtml5Angular.mvc.bean;
+package ru.testWork.aoklyunin.mvc.bean;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.security.access.method.P;
-
-import javax.xml.bind.annotation.XmlElement;
-import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
@@ -15,7 +10,6 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +17,7 @@ import java.util.List;
 /**
  * @author Клюнин А.О.
  * @version 1.0
- *          Класс используется для работы с директориями
+ * Класс используется для работы с директориями
  */
 
 public class DirAndFile implements Serializable {
@@ -111,53 +105,33 @@ public class DirAndFile implements Serializable {
     public int getIDLOG() {
         return IDDIRANDFILE;
     }
-
-    @XmlElement
     public void setIDLOG(int iDLOG) {
         IDDIRANDFILE = iDLOG;
     }
-
     public Date getCREATED() {
         return CREATED;
     }
-
-    @XmlElement
     public void setCREATED(Date CREATED) {
         this.CREATED = CREATED;
     }
-
     public String getPATH() {
         return PATH;
     }
-
-    @XmlElement
-    public void setPATH(String PATH) {
-        this.PATH = PATH;
-    }
-
     public int getDIRCNT() {
         return DIRCNT;
     }
-
-    @XmlElement
     public void setDIRCNT(int DIRCNT) {
         this.DIRCNT = DIRCNT;
     }
-
     public int getFILECNT() {
         return FILECNT;
     }
-
-    @XmlElement
     public void setFILECNT(int FILECNT) {
         this.FILECNT = FILECNT;
     }
-
     public String getSUMMURYSIZE() {
         return SUMMURYSIZE;
     }
-
-    @XmlElement
     public void setSUMMURYSIZE(String SUMMURYSIZE) {
         this.SUMMURYSIZE = SUMMURYSIZE;
     }

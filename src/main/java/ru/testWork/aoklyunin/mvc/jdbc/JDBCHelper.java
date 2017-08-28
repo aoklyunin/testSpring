@@ -1,25 +1,16 @@
-package ru.javastudy.mvcHtml5Angular.mvc.jdbc;
+package ru.testWork.aoklyunin.mvc.jdbc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import ru.javastudy.mvcHtml5Angular.mvc.bean.*;
+import ru.testWork.aoklyunin.mvc.bean.DirAndFile;
+import ru.testWork.aoklyunin.mvc.bean.HierarhiFile;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
-import javax.swing.*;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
