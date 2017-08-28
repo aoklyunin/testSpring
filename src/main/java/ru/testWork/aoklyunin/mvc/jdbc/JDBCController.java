@@ -9,8 +9,11 @@ import ru.testWork.aoklyunin.mvc.bean.DirAndFile;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+
 /**
- * Created for JavaStudy.ru on 24.02.2016.
+ *  @author Клюнин А.О.
+ *  @version 1.0
+ *  Контроллер страниц
  */
 @Controller
 public class JDBCController {
@@ -20,9 +23,7 @@ public class JDBCController {
 
     @RequestMapping(value = "/dirs_and_files")
     public String dirsAndFiles(Model model) {
-        System.out.println("queryAllDirs jdbcSelect is called");
         List<DirAndFile> dbLogs = jdbcHelper.queryAllDirs();
-        System.out.println(dbLogs);
         model.addAttribute("dbLogs", dbLogs);
         return "dirs_and_files";
     }
@@ -30,8 +31,7 @@ public class JDBCController {
     @RequestMapping(value = "/dirs_and_files", method = RequestMethod.POST)
     public String dirsAndFilesPOST(HttpServletRequest request) {
         String path = request.getParameter("path");
-        System.out.println(jdbcHelper.addDir(path));
-        System.out.println(path);
+        jdbcHelper.addDir(path);
         return "redirect:/dirs_and_files";
     }
 }
