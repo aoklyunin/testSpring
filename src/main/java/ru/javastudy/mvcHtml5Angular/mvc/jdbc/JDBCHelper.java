@@ -45,11 +45,10 @@ public class JDBCHelper {
         List<DirAndFile> dbLogList = this.jdbcTemplate.query(QUERY_SQL, new RowMapper<DirAndFile>() {
             public DirAndFile mapRow(ResultSet resulSet, int rowNum) throws SQLException {
                 System.out.println("Getting log: " + rowNum + " content: " + resulSet.getString("PATH"));
-                DirAndFile dbLog = new DirAndFile();
+                DirAndFile dbLog = new DirAndFile(resulSet.getString("PATH"));
                 dbLog.setIDLOG(resulSet.getInt("IDDIRANDFILE"));
                 dbLog.setCREATED(resulSet.getDate("CREATED"));
                 dbLog.setDIRCNT(resulSet.getInt("DIRCNT"));
-                dbLog.setPATH(resulSet.getString("PATH"));
                 dbLog.setFILECNT(resulSet.getInt("FILECNT"));
                 dbLog.setSUMMURYSIZE(resulSet.getString("SUMMURYSIZE"));
                 return dbLog;
@@ -66,7 +65,7 @@ public class JDBCHelper {
         else System.out.println(daf);
         // добавляем в базу
         jdbcTemplate.update(daf.getPreparedStatementCreator());
-        daf.getCreationFiles(jdbcTemplate,path);
+        daf.insertFilesIntoTable(jdbcTemplate);
         return true;
     }
 

@@ -22,7 +22,9 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 /**
- * Created by aokly on 26.08.2017.
+ *  @author Клюнин А.О.
+ *  @version 1.0
+ *  Класс используется для работы с файлами в директории
  */
 public class HierarhiFile {
     private String SIZE;
