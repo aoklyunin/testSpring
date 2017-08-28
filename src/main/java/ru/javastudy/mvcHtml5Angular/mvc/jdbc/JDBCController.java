@@ -10,6 +10,7 @@ import ru.javastudy.mvcHtml5Angular.mvc.bean.DirAndFile;
 import ru.javastudy.mvcHtml5Angular.mvc.bean.User;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class JDBCController {
     public String dirsAndFiles(Model model) {
         System.out.println("queryAllDirs jdbcSelect is called");
         List<DirAndFile> dbLogs = jdbcExample.queryAllDirs();
-        model.addAttribute("dbLogs",dbLogs);
+        model.addAttribute("dbLogs", dbLogs);
         return "/jdbc/dirs_and_files";
     }
 
@@ -79,6 +80,4 @@ public class JDBCController {
         System.out.println(path);
         return "redirect:/dirs_and_files";
     }
-
-
 }

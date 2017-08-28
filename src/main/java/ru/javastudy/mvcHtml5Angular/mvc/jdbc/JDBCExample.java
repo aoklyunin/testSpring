@@ -5,9 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import ru.javastudy.mvcHtml5Angular.mvc.bean.DBLog;
-import ru.javastudy.mvcHtml5Angular.mvc.bean.DirAndFile;
-import ru.javastudy.mvcHtml5Angular.mvc.bean.User;
+import ru.javastudy.mvcHtml5Angular.mvc.bean.*;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -18,10 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -139,10 +134,30 @@ public class JDBCExample {
 
     public boolean addDir(String path) {
         System.out.println("addDir called");
+        // получаем объект по местоположению
         DirAndFile daf = DirAndFile.getObj(path);
         if (daf==null) return false;
         else System.out.println(daf);
+        // добавляем в базу
         jdbcTemplate.update(daf.getPreparedStatementCreator());
+        daf.getCreationFiles(jdbcTemplate,path);
         return true;
+    }
+
+    public List<HierarhiFile> getDirsById(int id) {
+
+        final String QUERY_SQL = "SELECT * FROM HIERARHIFILES WHERE OWNERID="+id;
+        List<HierarhiFile>  dbLogList = this.jdbcTemplate.query(QUERY_SQL, new RowMapper<HierarhiFile>() {
+            public HierarhiFile mapRow(ResultSet resulSet, int rowNum) throws SQLException {
+                HierarhiFile dbLog = new HierarhiFile(
+                        resulSet.getString("SIZE"),
+                        resulSet.getString("NAME"),
+                        resulSet.getInt("OWNERID")
+
+                );
+                return dbLog;
+            }
+        });
+        return dbLogList;
     }
 }
