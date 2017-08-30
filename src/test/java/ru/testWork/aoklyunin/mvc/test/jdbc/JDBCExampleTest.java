@@ -63,9 +63,4 @@ public class JDBCExampleTest extends Assert {
                 new HierarhiFile("3,57Kb", "function.cpp", 1)
         )),lst);
     }
-    @Test
-    public void test1(){
-        System.out.println("f.".compareTo("F1"));
-    }
-
 }
