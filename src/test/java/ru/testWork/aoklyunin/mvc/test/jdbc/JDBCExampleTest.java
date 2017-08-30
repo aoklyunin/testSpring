@@ -51,9 +51,7 @@ public class JDBCExampleTest extends Assert {
                 new HierarhiFile("<DIR>", "X-FILES", 1),
                 new HierarhiFile("3,57Kb", "function.cpp", 1)
         ));
-        System.out.println(lst);
         JDBCHelper.sortHFList(lst);
-        System.out.println(lst);
         assertEquals(new ArrayList<>(Arrays.asList(
                 new HierarhiFile("<DIR>", "innerTep", 1),
                 new HierarhiFile("<DIR>", "X-FILES", 1),
