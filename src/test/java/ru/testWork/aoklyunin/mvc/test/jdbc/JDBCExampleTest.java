@@ -1,18 +1,11 @@
 package ru.testWork.aoklyunin.mvc.test.jdbc;
 
-import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.testWork.aoklyunin.mvc.bean.HierarhiFile;
 import ru.testWork.aoklyunin.mvc.jdbc.JDBCHelper;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,7 +52,7 @@ public class JDBCExampleTest extends Assert {
                 new HierarhiFile("3,57Kb", "function.cpp", 1)
         ));
         System.out.println(lst);
-        JDBCHelper.sortFolderList(lst);
+        JDBCHelper.sortHFList(lst);
         System.out.println(lst);
         assertEquals(new ArrayList<>(Arrays.asList(
                 new HierarhiFile("<DIR>", "innerTep", 1),

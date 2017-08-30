@@ -23,7 +23,7 @@ public class JDBCController {
 
     @RequestMapping(value = "/dirs_and_files")
     public String dirsAndFilesPage(Model model) {
-        List<DirAndFile> dafList = jdbcHelper.queryAllDirs();
+        List<DirAndFile> dafList = jdbcHelper.getDAFList();
         model.addAttribute("dbLogs", dafList);
         return "dirs_and_files";
     }
@@ -31,7 +31,7 @@ public class JDBCController {
     @RequestMapping(value = "/dirs_and_files", method = RequestMethod.POST)
     public String dirsAndFilesPOST(HttpServletRequest request) {
         String path = request.getParameter("path");
-        jdbcHelper.addDir(path);
+        jdbcHelper.addDAFByPath(path);
         return "redirect:/dirs_and_files";
     }
 }

@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -33,28 +32,27 @@ public class JDBCHelper {
     /**
      * Возвращает список директорий из БД
      */
-    List<DirAndFile> queryAllDirs() {
+    List<DirAndFile> getDAFList() {
         final String QUERY_SQL = "SELECT * FROM DIRANDFILE ORDER BY IDDIRANDFILE";
-        List<DirAndFile> dafList = this.jdbcTemplate.query(QUERY_SQL, (resulSet, rowNum) -> new DirAndFile(
+        return this.jdbcTemplate.query(QUERY_SQL, (resulSet, rowNum) -> new DirAndFile(
                 resulSet.getInt("IDDIRANDFILE"),
                 resulSet.getTimestamp("CREATED"),
                 resulSet.getString("PATH"),
                 resulSet.getInt("DIRCNT"),
                 resulSet.getInt("FILECNT"),
                 resulSet.getString("SUMMURYSIZE")));
-        return dafList;
     }
 
     /**
      * Добавляет директорию в БД по расположению
      */
-    boolean addDir(String path) {
+    boolean addDAFByPath(String path) {
         try {
             DirAndFile daf = new DirAndFile(path);
             // добавляем в базу директорию
             jdbcTemplate.update(getPreparedStatementCreatorDAF(daf));
             // добавляем в базу вложенные файлы
-            insertFilesIntoTable(daf, jdbcTemplate);
+            insertDAF(daf, jdbcTemplate);
             return true;
         } catch (IOException e) {
             return false;
@@ -64,7 +62,7 @@ public class JDBCHelper {
     /**
      * Возвращает список вложенных файлов из БД по id содержащей их директории
      */
-    List<HierarhiFile> getDirsById(int id) {
+    List<HierarhiFile> getHFListById(int id) {
         final String QUERY_SQL = "SELECT * FROM HIERARHIFILES WHERE OWNERID=" + id;
         return this.jdbcTemplate.query(QUERY_SQL, (resulSet, rowNum) ->
                 new HierarhiFile(
@@ -76,7 +74,7 @@ public class JDBCHelper {
     /**
      * Возвращает адрес директории по id
      */
-    String getPathById(int id) {
+    String getDAFPathById(int id) {
         final String QUERY_SQL = "SELECT PATH,CREATED FROM  DIRANDFILE WHERE +IDDIRANDFILE=?";
         return jdbcTemplate.query(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_SQL);
@@ -91,7 +89,7 @@ public class JDBCHelper {
     /**
      * Совмещаем два списка в один по очереди
      */
-    private static List<String> combineTwoList(List<String> lst1, List<String> lst2) {
+    private static List<String> combineTwoLists(List<String> lst1, List<String> lst2) {
         List<String> res = new ArrayList<>();
         int minLn = Math.min(lst1.size(), lst2.size());
         int maxLn = Math.max(lst1.size(), lst2.size());
@@ -132,9 +130,9 @@ public class JDBCHelper {
             numbers.add(getShortNumber(matcher.group()));
         }
         if (Character.isDigit(s.charAt(0)))
-            return combineTwoList(numbers, notNumbers);
+            return combineTwoLists(numbers, notNumbers);
         else
-            return combineTwoList(notNumbers, numbers);
+            return combineTwoLists(notNumbers, numbers);
     }
 
     /**
@@ -167,7 +165,7 @@ public class JDBCHelper {
      *
      * @param lst - список для сортировки
      */
-    public static void sortFolderList(List<HierarhiFile> lst) {
+    public static void sortHFList(List<HierarhiFile> lst) {
         lst.sort((o1, o2) -> {
             boolean o1d = o1.getSIZE().equals("<DIR>");
             boolean o2d = o2.getSIZE().equals("<DIR>");
@@ -224,7 +222,7 @@ public class JDBCHelper {
     /**
      * Получить список файлов по директории по её id и пути к директории
      */
-    private static List<HierarhiFile> getByFileHF(String path, int ownerId) {
+    private static List<HierarhiFile> getHFListByPathAndId(String path, int ownerId) {
         Path p = Paths.get(path);
         if (!Files.exists(p)) return new ArrayList<>();
         try {
@@ -255,7 +253,7 @@ public class JDBCHelper {
     /**
      * Вставляет в таблицу записи, соответствующую директории, адрес которой передан в аргументе
      */
-    private void insertFilesIntoTable(DirAndFile daf, JdbcTemplate jdbcTemplate) {
+    private void insertDAF(DirAndFile daf, JdbcTemplate jdbcTemplate) {
 
         final String QUERY_SQL = "SELECT (IDDIRANDFILE) FROM  DIRANDFILE WHERE " +
                 "CREATED=? AND PATH=? AND DIRCNT=? AND FILECNT=? AND SUMMURYSIZE=?";
@@ -264,7 +262,7 @@ public class JDBCHelper {
                 (resulSet, rowNum) -> resulSet.getInt("IDDIRANDFILE")).get(0);
 
         // получаем список файлов для объекта директории
-        List<HierarhiFile> hf = getByFileHF(daf.getPATH(), id);
+        List<HierarhiFile> hf = getHFListByPathAndId(daf.getPATH(), id);
 
         for (HierarhiFile h : hf) {
             jdbcTemplate.update(getPreparedStatementCreatorHF(h));
@@ -327,8 +325,6 @@ public class JDBCHelper {
                 map(path1 -> path1.toFile().length()).mapToLong(value -> value.longValue()).sum();
 
     }
-
-
 
     /**
      * Возвращает "красивую" строку с размером файла, переданным в аргументе
