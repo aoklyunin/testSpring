@@ -10,34 +10,30 @@ public class HierarhiFile {
      * Конструктор с аргументами: путь к файлу, назваание файла, id директории
      */
     public HierarhiFile(String SIZE, String NAME, int OWNERID) {
-        this.SIZE = SIZE;
-        this.NAME = NAME;
-        this.OWNERID = OWNERID;
+        this.mSIZE = SIZE;
+        this.mNAME = NAME;
+        this.mOWNERID = OWNERID;
     }
 
 
     @Override
     public String toString() {
         return "HierarhiFile{" +
-                "SIZE='" + SIZE + '\'' +
-                ", NAME='" + NAME + '\'' +
-                ", OWNERID=" + OWNERID +
+                "SIZE='" + mSIZE + '\'' +
+                ", NAME='" + mNAME + '\'' +
+                ", OWNERID=" + mOWNERID +
                 '}';
     }
 
     public String getSIZE() {
-        return SIZE;
+        return mSIZE;
     }
     public String getNAME() {
-        return NAME;
+        return mNAME;
     }
     public int getOWNERID() {
-        return OWNERID;
+        return mOWNERID;
     }
-
-    private String SIZE;
-    private String NAME;
-    private int OWNERID;
 
     @Override
     public boolean equals(Object o) {
@@ -46,16 +42,19 @@ public class HierarhiFile {
 
         HierarhiFile that = (HierarhiFile) o;
 
-        if (OWNERID != that.OWNERID) return false;
-        if (SIZE != null ? !SIZE.equals(that.SIZE) : that.SIZE != null) return false;
-        return NAME != null ? NAME.equals(that.NAME) : that.NAME == null;
+        if (mOWNERID != that.mOWNERID) return false;
+        if (mSIZE != null ? !mSIZE.equals(that.mSIZE) : that.mSIZE != null) return false;
+        return mNAME != null ? mNAME.equals(that.mNAME) : that.mNAME == null;
     }
 
     @Override
     public int hashCode() {
-        int result = SIZE != null ? SIZE.hashCode() : 0;
-        result = 31 * result + (NAME != null ? NAME.hashCode() : 0);
-        result = 31 * result + OWNERID;
+        int result = mSIZE != null ? mSIZE.hashCode() : 0;
+        result = 31 * result + (mNAME != null ? mNAME.hashCode() : 0);
+        result = 31 * result + mOWNERID;
         return result;
     }
+    private String mSIZE;
+    private String mNAME;
+    private int mOWNERID;
 }

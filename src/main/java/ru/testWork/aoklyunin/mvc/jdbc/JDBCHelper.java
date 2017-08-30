@@ -174,8 +174,7 @@ public class JDBCHelper {
             if ((o1d && o2d) || (!o1d && !o2d)) {
                 List<String> gen1 = generateList(deleteExtension(o1.getNAME()));
                 List<String> gen2 = generateList(deleteExtension(o2.getNAME()));
-                int minSize = Math.min(gen1.size(), gen2.size());
-                for (int i = 0; i < minSize; i++) {
+                for (int i = 0; i < Math.min(gen1.size(), gen2.size()); i++) {
                     String s1 = gen1.get(i);
                     String s2 = gen2.get(i);
                     int c;

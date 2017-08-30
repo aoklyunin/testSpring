@@ -26,12 +26,12 @@ public class DirAndFile implements Serializable {
      * @param SUMMURYSIZE  суммарный размер файлов
      */
     public DirAndFile(int IDDIRANDFILE, Date CREATED, String PATH, int DIRCNT, int FILECNT, String SUMMURYSIZE) {
-        this.IDDIRANDFILE = IDDIRANDFILE;
-        this.CREATED = CREATED;
-        this.PATH = PATH;
-        this.DIRCNT = DIRCNT;
-        this.FILECNT = FILECNT;
-        this.SUMMURYSIZE = SUMMURYSIZE;
+        this.mIDDIRANDFILE = IDDIRANDFILE;
+        this.mCREATED = CREATED;
+        this.mPATH = PATH;
+        this.mDIRCNT = DIRCNT;
+        this.mFILECNT = FILECNT;
+        this.mSUMMURYSIZE = SUMMURYSIZE;
     }
 
 
@@ -44,45 +44,45 @@ public class DirAndFile implements Serializable {
         Path p = Paths.get(path);
         if (Files.exists(p))
         // получаем оставшиеся данные
-        this.CREATED = new Date();
-        this.PATH = path;
-        this.DIRCNT = getDirCnt(p);
-        this.FILECNT = getFileCnt(p);
-        this.SUMMURYSIZE = getBfFileSize(getSumSize(p));
+        this.mCREATED = new Date();
+        this.mPATH = path;
+        this.mDIRCNT = getDirCnt(p);
+        this.mFILECNT = getFileCnt(p);
+        this.mSUMMURYSIZE = getBfFileSize(getSumSize(p));
     }
 
     public int getIDLOG() {
-        return IDDIRANDFILE;
+        return mIDDIRANDFILE;
     }
 
     public Date getCREATED() {
-        return CREATED;
+        return mCREATED;
     }
 
     public String getPATH() {
-        return PATH;
+        return mPATH;
     }
 
     public int getDIRCNT() {
-        return DIRCNT;
+        return mDIRCNT;
     }
 
     public int getFILECNT() {
-        return FILECNT;
+        return mFILECNT;
     }
 
     public String getSUMMURYSIZE() {
-        return SUMMURYSIZE;
+        return mSUMMURYSIZE;
     }
 
     @Override
     public String toString() {
         return "DirAndFile{" +
-                "CREATED=" + CREATED +
-                ", PATH='" + PATH + '\'' +
-                ", DIRCNT=" + DIRCNT +
-                ", FILECNT=" + FILECNT +
-                ", SUMMURYSIZE='" + SUMMURYSIZE + '\'' +
+                "CREATED=" + mCREATED +
+                ", PATH='" + mPATH + '\'' +
+                ", DIRCNT=" + mDIRCNT +
+                ", FILECNT=" + mFILECNT +
+                ", SUMMURYSIZE='" + mSUMMURYSIZE + '\'' +
                 '}';
     }
 
@@ -94,27 +94,29 @@ public class DirAndFile implements Serializable {
     /**
      * ID
      **/
-    private int IDDIRANDFILE;
+    private int mIDDIRANDFILE;
     /**
      * Дата и время создания
      **/
-    private Date CREATED;
+    private Date mCREATED;
     /**
      * Путь
      **/
-    private String PATH;
+    private String mPATH;
+
     /**
      * Кол-во директорий
      **/
-    private int DIRCNT;
+    private int mDIRCNT;
     /**
      * Кол-во фалов
      **/
-    private int FILECNT;
+    private int mFILECNT;
+
     /**
      * Суммарный размер файлов
      **/
-    private String SUMMURYSIZE;
+    private String mSUMMURYSIZE;
 
     private static final long K = 1024;
     private static final long M = K * K;

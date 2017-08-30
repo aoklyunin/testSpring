@@ -112,8 +112,8 @@
                             $('#insertRow').empty();
                             $.each(results.lst, function (k, v) {
                                 $('<tr>').append(
-                                    $('<td>').text(v.NAME),
-                                    $('<td>').text(v.SIZE)
+                                    $('<td>').text(v.mNAME),
+                                    $('<td>').text(v.mSIZE)
                                 ).appendTo('#insertRow');
                             });
                             $('#modalTitle').text(results.path);
