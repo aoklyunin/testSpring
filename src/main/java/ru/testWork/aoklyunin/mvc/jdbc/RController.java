@@ -22,17 +22,9 @@ public class RController {
     public
     @ResponseBody
     String getFiles(@RequestParam(value = "id", defaultValue = "0") String id) {
-        List<HierarhiFile> lst = jdbcHelper.getDirsById(Integer.parseInt(id));
-        lst.sort((o1, o2) -> {
-            boolean o1d = o1.getSIZE().equals("<DIR>");
-            boolean o2d = o2.getSIZE().equals("<DIR>");
-            if ((o1d && o2d) || (!o1d && !o2d))
-                return o1.getNAME().toLowerCase().compareTo(o2.getNAME().toLowerCase());
-            else if (o1d) return -1;
-            else return 1;
-        });
-
-        return new Gson().toJson(new RetStruct(lst, jdbcHelper.getPathById(Integer.parseInt(id))));
+        List<HierarhiFile> hfLst = jdbcHelper.getDirsById(Integer.parseInt(id));
+        JDBCHelper.sortFolderList(hfLst);
+        return new Gson().toJson(new RetStruct(hfLst, jdbcHelper.getPathById(Integer.parseInt(id))));
     }
 
     /**

@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="page" tagdir="/WEB-INF/tags" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <page:template>
 
@@ -21,7 +21,7 @@
                         <small>Тестовое задание</small>
                     </h1>
                     <ol class="breadcrumb">
-                        <li><a href="index.html">Главная</a>
+                        <li><a href="">Главная</a>
                         </li>
                         <li class="active">Dirs&Files</li>
                     </ol>
@@ -50,7 +50,7 @@
                     <tbody>
                     <c:forEach items="${dbLogs}" var="item">
                         <tr>
-                            <td>${item.CREATED}</td>
+                            <td><fmt:formatDate value="${item.CREATED}" pattern="dd.MM.yyyy HH:mm" /></td>
                             <td>${item.PATH}</td>
                             <td>${item.DIRCNT}</td>
                             <td>${item.FILECNT}</td>

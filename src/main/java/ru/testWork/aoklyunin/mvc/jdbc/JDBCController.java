@@ -22,9 +22,9 @@ public class JDBCController {
     JDBCHelper jdbcHelper;
 
     @RequestMapping(value = "/dirs_and_files")
-    public String dirsAndFiles(Model model) {
-        List<DirAndFile> dbLogs = jdbcHelper.queryAllDirs();
-        model.addAttribute("dbLogs", dbLogs);
+    public String dirsAndFilesPage(Model model) {
+        List<DirAndFile> dafList = jdbcHelper.queryAllDirs();
+        model.addAttribute("dbLogs", dafList);
         return "dirs_and_files";
     }
 
